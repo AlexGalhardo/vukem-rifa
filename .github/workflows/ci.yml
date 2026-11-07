@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@v7.0.0
         with:
           go-version-file: go.mod
@@ -32,6 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@v7.0.0
         with:
           go-version-file: go.mod
@@ -60,6 +64,8 @@ jobs:
       TEST_DATABASE_URL: postgres://rifa:rifa@localhost:5432/rifa?sslmode=disable
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@v7.0.0
         with:
           go-version-file: go.mod
@@ -79,6 +85,8 @@ jobs:
       SMTP_PASSWORD: ${{ secrets.MAILTRAP_SMTP_PASSWORD }}
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
         if: env.MAILTRAP_API_TOKEN != ''
       - uses: actions/setup-go@v7.0.0
         if: env.MAILTRAP_API_TOKEN != ''
@@ -97,6 +105,8 @@ jobs:
       ABACATEPAY_WEBHOOK_SECRET: ${{ secrets.ABACATEPAY_WEBHOOK_SECRET }}
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
         if: env.ABACATEPAY_API_KEY != ''
       - uses: actions/setup-go@v7.0.0
         if: env.ABACATEPAY_API_KEY != ''
@@ -109,6 +119,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@v7.0.0
         with:
           go-version-file: go.mod
@@ -119,6 +131,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: oven-sh/setup-bun@v2.2.0
         with:
           bun-version: 1.4.3
@@ -136,6 +150,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
         with:
+          persist-credentials: false
           fetch-depth: 0
       - uses: oven-sh/setup-bun@v2.2.0
         with:
@@ -153,6 +168,8 @@ jobs:
       E2E_ADMIN_PASSWORD: e2e-admin-password-ci-only
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: oven-sh/setup-bun@v2.2.0
         with:
           bun-version: 1.4.3
