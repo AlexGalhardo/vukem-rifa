@@ -1,0 +1,238 @@
+[
+	{
+		"verdict": "confirmed",
+		"fingerprint": "vukem-rifa-vuejs:ci:actions-pinned-by-tag",
+		"title": "Third-party GitHub Actions are pinned by mutable tag",
+		"description": "Workflows reference actions by version tag, which the action owner can move. A compromised tag would run attacker code with the job token and secrets.",
+		"root_cause": "uses: owner/action@vX.Y.Z instead of a full commit SHA.",
+		"intended_behavior": "Third-party actions are pinned to a 40-character commit SHA with the version in a trailing comment, as in security-audit.yml.",
+		"trace": [
+			{
+				"kind": "entrypoint",
+				"file": ".github/workflows/ci.yml",
+				"line": 22,
+				"scope": "jobs",
+				"description": "Workflow runs resolve the tag at run time."
+			},
+			{
+				"kind": "sink",
+				"file": ".github/workflows/ci.yml",
+				"line": 22,
+				"scope": "uses step",
+				"description": "The resolved code runs with the job token and secrets."
+			}
+		],
+		"evidence": [
+			{
+				"file": ".github/workflows/ci.yml",
+				"line": 22,
+				"description": "The step is pinned by tag, not SHA."
+			}
+		],
+		"conditions": [
+			{
+				"kind": "environmental_dependency",
+				"description": "Needs the upstream action tag to be moved or its repository compromised."
+			}
+		],
+		"execution": {
+			"attacker_perspective": "Compromised upstream action maintainer or tag.",
+			"payloads": ["none"],
+			"instructions": ["Inspect the workflows: uses lines end in a version tag."],
+			"observed_result": "The action code is resolved from a movable tag."
+		},
+		"remediation": {
+			"strategy": "Pin every action to its commit SHA, keeping the version in a comment.",
+			"code_changes": []
+		},
+		"severity": {
+			"likelihood": {
+				"score": "low",
+				"reason": "Needs an upstream compromise."
+			},
+			"impact": {
+				"score": "low",
+				"reason": "Release workflows hold packages write and registry credentials."
+			},
+			"overall_severity": "low"
+		},
+		"confidence": {
+			"score": "high",
+			"reason": "Visible in the repository files."
+		}
+	},
+	{
+		"verdict": "confirmed",
+		"fingerprint": "vukem-rifa-vuejs:ci:checkout-persists-credentials",
+		"title": "Workflow checkouts keep the GitHub token in the local git config",
+		"description": "The workflows check out the repository without persist-credentials: false, so the job token stays in .git/config for later steps, including steps that run repository code.",
+		"root_cause": "actions/checkout default persist-credentials: true.",
+		"intended_behavior": "Every checkout sets persist-credentials: false, as scorecard.yml and security-audit.yml do.",
+		"trace": [
+			{
+				"kind": "entrypoint",
+				"file": ".github/workflows/ci.yml",
+				"line": 22,
+				"scope": "jobs",
+				"description": "Push and pull_request runs execute the checkout steps."
+			},
+			{
+				"kind": "sink",
+				"file": ".github/workflows/ci.yml",
+				"line": 22,
+				"scope": "checkout step",
+				"description": "Token is written to the workspace git config and stays readable by later steps."
+			}
+		],
+		"evidence": [
+			{
+				"file": ".github/workflows/ci.yml",
+				"line": 22,
+				"description": "The checkout step has no persist-credentials setting."
+			}
+		],
+		"conditions": [
+			{
+				"kind": "environmental_dependency",
+				"description": "Needs untrusted code running in a later step; the token is limited by the workflow permissions."
+			}
+		],
+		"execution": {
+			"attacker_perspective": "Pull request author whose code runs in a later step.",
+			"payloads": ["none"],
+			"instructions": ["Inspect the workflows: the checkout steps lack persist-credentials: false."],
+			"observed_result": "Token remains available in .git/config for subsequent steps."
+		},
+		"remediation": {
+			"strategy": "Add with: persist-credentials: false to every checkout step.",
+			"code_changes": []
+		},
+		"severity": {
+			"likelihood": {
+				"score": "low",
+				"reason": "Fork pull requests get a read-only token and same-repo authors already have write access."
+			},
+			"impact": {
+				"score": "informational",
+				"reason": "Token scope is limited by the permissions blocks."
+			},
+			"overall_severity": "informational"
+		},
+		"confidence": {
+			"score": "high",
+			"reason": "Visible in the repository files."
+		}
+	},
+	{
+		"verdict": "rejected",
+		"fingerprint": "vukem-rifa-vuejs:draws:biased-or-predictable-draw",
+		"title": "Draw can be biased or predicted",
+		"description": "The winner is picked by a seed and the participants list.",
+		"claimed_root_cause": "The winner is picked by a seed and the participants list.",
+		"trace": [
+			{
+				"kind": "entrypoint",
+				"file": "app/draws/algorithm.go",
+				"line": 55,
+				"scope": "Pick",
+				"description": "Draw run by the owner."
+			}
+		],
+		"evidence": [
+			{
+				"file": "app/draws/algorithm.go",
+				"line": 55,
+				"description": "HMAC-SHA256 stream with rejection sampling from a 256-bit crypto/rand seed; the algorithm is a pure, published function."
+			}
+		],
+		"reason": "No modulo bias and no predictable seed."
+	},
+	{
+		"verdict": "confirmed",
+		"fingerprint": "vukem-rifa-vuejs:infra:compose-ports-all-interfaces",
+		"title": "Dev compose stack publishes datastores and mail ports on all interfaces with default credentials",
+		"description": "compose.yaml maps container ports without a host address, so Docker binds them on every interface. The stack uses default credentials (Postgres password, webhook secret or object-store keys).",
+		"root_cause": "Port mappings of the form \"host:container\" without 127.0.0.1.",
+		"intended_behavior": "Local development services are reachable from the local machine only.",
+		"trace": [
+			{
+				"kind": "entrypoint",
+				"file": "compose.yaml",
+				"line": 31,
+				"scope": "services.*.ports",
+				"description": "docker compose up binds the published ports on 0.0.0.0."
+			},
+			{
+				"kind": "sink",
+				"file": "compose.yaml",
+				"line": 31,
+				"scope": "datastore service",
+				"description": "Default credentials guard the exposed service."
+			}
+		],
+		"evidence": [
+			{
+				"file": "compose.yaml",
+				"line": 31,
+				"description": "Published port without a host address."
+			}
+		],
+		"conditions": [
+			{
+				"kind": "environmental_dependency",
+				"description": "Needs the developer machine on an untrusted network while the stack runs."
+			}
+		],
+		"execution": {
+			"attacker_perspective": "Another host on the same network.",
+			"payloads": ["none"],
+			"instructions": [
+				"Run docker compose up and connect to the published Postgres port from another host with the default credentials."
+			],
+			"observed_result": "Connection accepted from non-loopback interfaces."
+		},
+		"remediation": {
+			"strategy": "Prefix every published port with 127.0.0.1:; a test fails on a bare mapping.",
+			"code_changes": []
+		},
+		"severity": {
+			"likelihood": {
+				"score": "low",
+				"reason": "Dev-only stack on a developer machine."
+			},
+			"impact": {
+				"score": "low",
+				"reason": "Dev data only, but defaults are public."
+			},
+			"overall_severity": "low"
+		},
+		"confidence": {
+			"score": "high",
+			"reason": "Visible in the repository files."
+		}
+	},
+	{
+		"verdict": "rejected",
+		"fingerprint": "vukem-rifa-vuejs:payments:webhook-forgery",
+		"title": "Payment webhook accepts forged events",
+		"description": "POST /webhooks/abacatepay marks numbers as paid.",
+		"claimed_root_cause": "POST /webhooks/abacatepay marks numbers as paid.",
+		"trace": [
+			{
+				"kind": "entrypoint",
+				"file": "routes/webhooks.go",
+				"line": 54,
+				"scope": "Webhooks",
+				"description": "Unauthenticated POST."
+			}
+		],
+		"evidence": [
+			{
+				"file": "routes/webhooks.go",
+				"line": 54,
+				"description": "Constant-time webhookSecret, HMAC signature over the raw body, event-id dedupe and a per-IP rate limit run before the handler; an unset secret rejects everything."
+			}
+		],
+		"reason": "Fails closed on every check."
+	}
+]

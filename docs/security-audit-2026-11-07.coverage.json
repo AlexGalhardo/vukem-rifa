@@ -1,0 +1,250 @@
+[
+	{
+		"coverage_id": ".github%2Fworkflows%2Fci.yml%23checkout::.github%2Fworkflows%2Fci.yml%23permissions::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Obvious%20things",
+		"canonical_refs": {
+			"surface": ".github/workflows/ci.yml#checkout",
+			"boundary": ".github/workflows/ci.yml#permissions",
+			"subsystem": "profile/quick/all-in-scope-subsystems",
+			"attack_class": "ATTACK-CLASSES.md#Obvious things"
+		},
+		"surface": ".github/workflows/ci.yml#checkout",
+		"boundary": ".github/workflows/ci.yml#permissions",
+		"subsystem": "profile/quick/all-in-scope-subsystems",
+		"attack_class": "ATTACK-CLASSES.md#Obvious things",
+		"starting_paths": [".github/workflows/ci.yml", ".github/workflows/release.yml"],
+		"ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+		"selected_companion_blocks": [],
+		"excluded_blocks": [],
+		"prior_status": "none",
+		"attempts": [],
+		"wave": 1,
+		"status": "candidate",
+		"agent_id": "hunter-main",
+		"reviewed_paths": [".github/workflows/ci.yml", ".github/workflows/release.yml"],
+		"local_checks": [
+			{
+				"agent_id": "hunter-main",
+				"reviewed_paths": [".github/workflows/ci.yml", ".github/workflows/release.yml"],
+				"invariant": "Workflows use least privilege, pinned actions and non-persisted credentials.",
+				"method": "source",
+				"result": "Checkouts persisted credentials and actions were tag-pinned.",
+				"artifact": null
+			}
+		],
+		"result_fingerprints": [
+			"vukem-rifa-vuejs:ci:checkout-persists-credentials",
+			"vukem-rifa-vuejs:ci:actions-pinned-by-tag"
+		],
+		"unresolved": []
+	},
+	{
+		"coverage_id": "app%2Fdraws%2Falgorithm.go%23Pick::app%2Fdraws%2Fdraws.go%23Draw::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+		"canonical_refs": {
+			"surface": "app/draws/algorithm.go#Pick",
+			"boundary": "app/draws/draws.go#Draw",
+			"subsystem": "profile/quick/all-in-scope-subsystems",
+			"attack_class": "ATTACK-CLASSES.md#Business logic"
+		},
+		"surface": "app/draws/algorithm.go#Pick",
+		"boundary": "app/draws/draws.go#Draw",
+		"subsystem": "profile/quick/all-in-scope-subsystems",
+		"attack_class": "ATTACK-CLASSES.md#Business logic",
+		"starting_paths": ["app/draws/algorithm.go", "app/draws/draws.go"],
+		"ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+		"selected_companion_blocks": [],
+		"excluded_blocks": [],
+		"prior_status": "none",
+		"attempts": [],
+		"wave": 1,
+		"status": "covered",
+		"agent_id": "hunter-main",
+		"reviewed_paths": ["app/draws/algorithm.go", "app/draws/draws.go"],
+		"local_checks": [
+			{
+				"agent_id": "hunter-main",
+				"reviewed_paths": ["app/draws/algorithm.go", "app/draws/draws.go"],
+				"invariant": "Draw is unbiased, reproducible and uses a crypto seed.",
+				"method": "source",
+				"result": "Rejection sampling over HMAC stream.",
+				"artifact": null
+			}
+		],
+		"result_fingerprints": [],
+		"unresolved": []
+	},
+	{
+		"coverage_id": "app%2Fexport%2Fexport.go%23WriteCSV::app%2Fexport%2Fexport.go%23Text::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Injection",
+		"canonical_refs": {
+			"surface": "app/export/export.go#WriteCSV",
+			"boundary": "app/export/export.go#Text",
+			"subsystem": "profile/quick/all-in-scope-subsystems",
+			"attack_class": "ATTACK-CLASSES.md#Injection"
+		},
+		"surface": "app/export/export.go#WriteCSV",
+		"boundary": "app/export/export.go#Text",
+		"subsystem": "profile/quick/all-in-scope-subsystems",
+		"attack_class": "ATTACK-CLASSES.md#Injection",
+		"starting_paths": ["app/export/export.go"],
+		"ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+		"selected_companion_blocks": [],
+		"excluded_blocks": [],
+		"prior_status": "none",
+		"attempts": [],
+		"wave": 1,
+		"status": "covered",
+		"agent_id": "hunter-main",
+		"reviewed_paths": ["app/export/export.go"],
+		"local_checks": [
+			{
+				"agent_id": "hunter-main",
+				"reviewed_paths": ["app/export/export.go"],
+				"invariant": "CSV cells are guarded against formula injection.",
+				"method": "source",
+				"result": "SafeCell applied to every cell.",
+				"artifact": null
+			}
+		],
+		"result_fingerprints": [],
+		"unresolved": []
+	},
+	{
+		"coverage_id": "compose.yaml%23ports::compose.yaml%23environment::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Obvious%20things",
+		"canonical_refs": {
+			"surface": "compose.yaml#ports",
+			"boundary": "compose.yaml#environment",
+			"subsystem": "profile/quick/all-in-scope-subsystems",
+			"attack_class": "ATTACK-CLASSES.md#Obvious things"
+		},
+		"surface": "compose.yaml#ports",
+		"boundary": "compose.yaml#environment",
+		"subsystem": "profile/quick/all-in-scope-subsystems",
+		"attack_class": "ATTACK-CLASSES.md#Obvious things",
+		"starting_paths": ["compose.yaml"],
+		"ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+		"selected_companion_blocks": [],
+		"excluded_blocks": [],
+		"prior_status": "none",
+		"attempts": [],
+		"wave": 1,
+		"status": "candidate",
+		"agent_id": "hunter-main",
+		"reviewed_paths": ["compose.yaml"],
+		"local_checks": [
+			{
+				"agent_id": "hunter-main",
+				"reviewed_paths": ["compose.yaml"],
+				"invariant": "Dev services are loopback only.",
+				"method": "source",
+				"result": "Ports were published on all interfaces.",
+				"artifact": null
+			}
+		],
+		"result_fingerprints": ["vukem-rifa-vuejs:infra:compose-ports-all-interfaces"],
+		"unresolved": []
+	},
+	{
+		"coverage_id": "routes%2Fapi.go%23api-v1::app%2Fcontrollers%2Fapiv1%2Fhandlers.go%23owner-scope::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+		"canonical_refs": {
+			"surface": "routes/api.go#api-v1",
+			"boundary": "app/controllers/apiv1/handlers.go#owner-scope",
+			"subsystem": "profile/quick/all-in-scope-subsystems",
+			"attack_class": "ATTACK-CLASSES.md#Access control"
+		},
+		"surface": "routes/api.go#api-v1",
+		"boundary": "app/controllers/apiv1/handlers.go#owner-scope",
+		"subsystem": "profile/quick/all-in-scope-subsystems",
+		"attack_class": "ATTACK-CLASSES.md#Access control",
+		"starting_paths": ["routes/api.go", "app/controllers/apiv1/handlers.go"],
+		"ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+		"selected_companion_blocks": [],
+		"excluded_blocks": [],
+		"prior_status": "none",
+		"attempts": [],
+		"wave": 1,
+		"status": "covered",
+		"agent_id": "hunter-main",
+		"reviewed_paths": ["routes/api.go", "app/controllers/apiv1/handlers.go"],
+		"local_checks": [
+			{
+				"agent_id": "hunter-main",
+				"reviewed_paths": ["routes/api.go", "app/controllers/apiv1/handlers.go"],
+				"invariant": "API resources are scoped by user_id; idempotency has an explicit scope.",
+				"method": "source",
+				"result": "Scoped by owner and API key.",
+				"artifact": null
+			}
+		],
+		"result_fingerprints": [],
+		"unresolved": []
+	},
+	{
+		"coverage_id": "routes%2Fcheckout.go%23reserve::app%2Freservations%2Freservations.go%23ReserveWith::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+		"canonical_refs": {
+			"surface": "routes/checkout.go#reserve",
+			"boundary": "app/reservations/reservations.go#ReserveWith",
+			"subsystem": "profile/quick/all-in-scope-subsystems",
+			"attack_class": "ATTACK-CLASSES.md#Business logic"
+		},
+		"surface": "routes/checkout.go#reserve",
+		"boundary": "app/reservations/reservations.go#ReserveWith",
+		"subsystem": "profile/quick/all-in-scope-subsystems",
+		"attack_class": "ATTACK-CLASSES.md#Business logic",
+		"starting_paths": ["routes/checkout.go", "app/reservations/reservations.go"],
+		"ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+		"selected_companion_blocks": [],
+		"excluded_blocks": [],
+		"prior_status": "none",
+		"attempts": [],
+		"wave": 1,
+		"status": "covered",
+		"agent_id": "hunter-main",
+		"reviewed_paths": ["routes/checkout.go", "app/reservations/reservations.go"],
+		"local_checks": [
+			{
+				"agent_id": "hunter-main",
+				"reviewed_paths": ["routes/checkout.go", "app/reservations/reservations.go"],
+				"invariant": "Reservations lock the raffle row and are rate limited per IP and per email.",
+				"method": "source",
+				"result": "Locked in a transaction with caps.",
+				"artifact": null
+			}
+		],
+		"result_fingerprints": [],
+		"unresolved": []
+	},
+	{
+		"coverage_id": "routes%2Fwebhooks.go%23abacatepay::routes%2Fwebhooks.go%23webhookSecret::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Cryptography%20and%20secrets",
+		"canonical_refs": {
+			"surface": "routes/webhooks.go#abacatepay",
+			"boundary": "routes/webhooks.go#webhookSecret",
+			"subsystem": "profile/quick/all-in-scope-subsystems",
+			"attack_class": "ATTACK-CLASSES.md#Cryptography and secrets"
+		},
+		"surface": "routes/webhooks.go#abacatepay",
+		"boundary": "routes/webhooks.go#webhookSecret",
+		"subsystem": "profile/quick/all-in-scope-subsystems",
+		"attack_class": "ATTACK-CLASSES.md#Cryptography and secrets",
+		"starting_paths": ["routes/webhooks.go", "app/controllers/webhook_controller.go"],
+		"ordinary_attack_class_block": "ATTACK-CLASSES.md#Cryptography and secrets",
+		"selected_companion_blocks": [],
+		"excluded_blocks": [],
+		"prior_status": "none",
+		"attempts": [],
+		"wave": 1,
+		"status": "covered",
+		"agent_id": "hunter-main",
+		"reviewed_paths": ["routes/webhooks.go", "app/controllers/webhook_controller.go"],
+		"local_checks": [
+			{
+				"agent_id": "hunter-main",
+				"reviewed_paths": ["routes/webhooks.go", "app/controllers/webhook_controller.go"],
+				"invariant": "Webhooks are authenticated, integrity-checked and deduplicated.",
+				"method": "source",
+				"result": "All three checks run before the handler.",
+				"artifact": null
+			}
+		],
+		"result_fingerprints": [],
+		"unresolved": []
+	}
+]
