@@ -1,10 +1,10 @@
 module github.com/AlexGalhardo/vukem-rifa-vuejs
 
-go 1.27.3
+go 1.27.4
 
 require (
-	github.com/AlexGalhardo/vukem v0.39.0
-	github.com/AlexGalhardo/vukem/drivers/postgres v0.6.1
+	github.com/AlexGalhardo/vukem v0.41.0
+	github.com/AlexGalhardo/vukem/drivers/postgres v0.7.1
 )
 
 require (
